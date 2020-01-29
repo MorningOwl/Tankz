@@ -8,7 +8,7 @@ Game::Game()
 	window.setFramerateLimit(60);
 
 	LoadTextures();
-	background.setTexture(texmgr.GetRef("background"));
+	background.setTexture(texmgr.GetRef("Background"));
 
 	PushState(new GameStatePlaying(this));
 }
@@ -38,7 +38,8 @@ void Game::GameLoop()
 
 void Game::LoadTextures()
 {
-	texmgr.LoadTexture("background", "res/images/Background.png");
+	texmgr.LoadTexture("Background", "res/images/Background.png");
+	texmgr.LoadTexture("Player", "res/images/Player.png");
 	texmgr.LoadTexture("Level1", "res/images/Level1.png");
 }
 
