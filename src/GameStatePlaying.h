@@ -1,5 +1,6 @@
 #pragma once
 #include "GameState.h"
+#include "TileMap.h"
 
 
 class GameStatePlaying : public GameState
@@ -10,4 +11,6 @@ class GameStatePlaying : public GameState
 		void HandleInput();
 		void Update(float dt);
 		void Draw(float dt);
+
+		TileMap level1;
 };

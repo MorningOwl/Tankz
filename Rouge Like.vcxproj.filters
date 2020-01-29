@@ -27,6 +27,9 @@
     <ClInclude Include="src\TextureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\TileMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">
@@ -41,5 +44,25 @@
     <ClCompile Include="src\TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\TileMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="res\maps\Level1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\images\Background.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\images\Enemy.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\images\Level1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\images\Player.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

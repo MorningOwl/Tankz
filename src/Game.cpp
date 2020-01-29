@@ -39,6 +39,7 @@ void Game::GameLoop()
 void Game::LoadTextures()
 {
 	texmgr.LoadTexture("background", "res/images/Background.png");
+	texmgr.LoadTexture("Level1", "res/images/Level1.png");
 }
 
 void Game::PushState(GameState *state)
