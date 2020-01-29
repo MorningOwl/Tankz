@@ -38,6 +38,7 @@ void GameObjectManager::Update(TileMap &map, float dt)
 	for (auto object = m_objects.begin(); object != m_objects.end(); object++)
 	{
 		object->second->Update(dt);
+		map.CheckCollision(object->second);
 	}
 }
 

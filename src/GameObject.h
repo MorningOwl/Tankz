@@ -13,9 +13,12 @@ class GameObject
 		void Move();
 
 		sf::FloatRect GetBounds();
+		sf::Vector2f GetPosition();
 		sf::Vector2f GetVelocity();
 
 		sf::Vector2f m_vel;
+
+	protected:
 		float m_speed;
 		sf::Sprite m_sprite;
 };

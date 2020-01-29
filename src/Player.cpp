@@ -14,6 +14,4 @@ void Player::Update(float dt)
 
 	m_vel.y = sf::Keyboard::isKeyPressed(sf::Keyboard::Down) * m_speed
 		- sf::Keyboard::isKeyPressed(sf::Keyboard::Up) * m_speed;
-
-	Move();
 }

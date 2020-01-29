@@ -19,6 +19,13 @@ void TileMap::Load(sf::Texture &tileset, const std::string &filename)
 		m_tiles.push_back(tile);
 	}
 
+	for (int i = 0; i < m_width * m_height; i++)
+	{
+		int tile;
+		load >> tile;
+		m_collisions.push_back(tile);
+	}
+
 	load.close();
 
 	m_vertices.setPrimitiveType(sf::Quads);
@@ -44,6 +51,42 @@ void TileMap::Load(sf::Texture &tileset, const std::string &filename)
 			quad[2].texCoords = sf::Vector2f((tu + 1) * m_tilesize.x, (tv + 1) * m_tilesize.y);
 			quad[3].texCoords = sf::Vector2f(tu * m_tilesize.x, (tv + 1) * m_tilesize.y);
 		}
+}
+
+void TileMap::CheckCollision(GameObject *object)
+{
+	sf::Vector2f pos = sf::Vector2f((int)object->GetPosition().x / m_tilesize.x, (int)object->GetPosition().y / m_tilesize.y);
+	sf::FloatRect current_rect = object->GetBounds();
+	sf::FloatRect collision_rect_X = sf::FloatRect(current_rect.left + object->GetVelocity().x, current_rect.top, current_rect.width, current_rect.height);
+	sf::FloatRect collision_rect_Y = sf::FloatRect(current_rect.left, current_rect.top + object->GetVelocity().y, current_rect.width, current_rect.height);
+
+	for (int y = pos.y - 1; y <= pos.y + 1; y++)
+		for (int x = pos.x - 1; x <= pos.x + 1; x++)
+		{
+			if (y * m_width + x > m_collisions.size()) continue;
+			if (!m_collisions[y * m_width + x]) continue;
+			sf::FloatRect tile(x * m_tilesize.x, y * m_tilesize.y, m_tilesize.x, m_tilesize.y);
+
+			if (tile.intersects(collision_rect_X))
+			{
+				if (collision_rect_X.left < tile.left && collision_rect_X.left + collision_rect_X.width > tile.left)
+					object->m_vel.x = tile.left - (current_rect.left + current_rect.width);
+
+				else if (collision_rect_X.left < tile.left + tile.width && collision_rect_X.left + collision_rect_X.width > tile.left + tile.width)
+					object->m_vel.x = tile.left + tile.width - current_rect.left;
+			}
+
+			if (tile.intersects(collision_rect_Y))
+			{
+				if (collision_rect_Y.top < tile.top && collision_rect_Y.top + collision_rect_Y.height > tile.top)
+					object->m_vel.y = tile.top - (current_rect.top + current_rect.height);
+
+				else if (collision_rect_Y.top < tile.top + tile.height && collision_rect_Y.top + collision_rect_Y.height > tile.top + tile.height)
+					object->m_vel.y = tile.top + tile.height - current_rect.top;
+			}
+		}
+
+	object->Move();
 }
 
 void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const

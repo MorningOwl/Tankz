@@ -14,6 +14,11 @@ sf::FloatRect GameObject::GetBounds()
 	return m_sprite.getGlobalBounds();
 }
 
+sf::Vector2f GameObject::GetPosition()
+{
+	return m_sprite.getPosition();
+}
+
 sf::Vector2f GameObject::GetVelocity()
 {
 	return m_vel;
