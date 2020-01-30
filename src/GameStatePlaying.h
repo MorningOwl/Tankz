@@ -1,6 +1,6 @@
 #pragma once
 #include "GameState.h"
-#include "TileMap.h"
+#include "Level.h"
 #include "GameObjectManager.h"
 
 
@@ -13,6 +13,6 @@ class GameStatePlaying : public GameState
 		void Update(float dt);
 		void Draw(float dt);
 
-		TileMap level1;
+		Level level1;
 		GameObjectManager object_manager;
 };

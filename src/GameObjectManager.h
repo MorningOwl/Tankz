@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "TileMap.h"
+#include "Level.h"
 #include <map>
 
 
@@ -13,7 +13,7 @@ class GameObjectManager
 		void Remove(const std::string &name);
 		GameObject* Get(const std::string &name);
 
-		void Update(TileMap &map, float dt);
+		void Update(Level &map, float dt);
 		void Draw(sf::RenderWindow &window, float dt);
 
 	private:

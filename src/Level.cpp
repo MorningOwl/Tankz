@@ -1,9 +1,21 @@
-#include "TileMap.h"
+#include "Level.h"
 #include <fstream>
 #include <cassert>
 
 
-void TileMap::Load(sf::Texture &tileset, const std::string &filename)
+Level::Level(Game *game)
+	:game(game)
+{
+
+}
+
+Level::~Level()
+{
+	for (auto enemy : m_enemies)
+		delete enemy;
+}
+
+void Level::Load(sf::Texture &tileset, const std::string &filename)
 {
 	m_tileset = tileset;
 	std::ifstream load(filename);
@@ -24,6 +36,18 @@ void TileMap::Load(sf::Texture &tileset, const std::string &filename)
 		int tile;
 		load >> tile;
 		m_collisions.push_back(tile);
+	}
+
+	sf::Texture e;
+	e.loadFromFile("res/images/Enemy.png");
+
+	for (int i = 0; i < m_width * m_height; i++)
+	{
+		int tile;
+		load >> tile;
+		if (tile == 1)
+			m_enemies.push_back(new Enemy(game->texmgr.GetRef("Enemy"),
+				sf::Vector2f((i % m_width) * m_tilesize.x + m_tilesize.x / 2, (i / m_width) * m_tilesize.y + m_tilesize.y / 2)));
 	}
 
 	load.close();
@@ -53,7 +77,7 @@ void TileMap::Load(sf::Texture &tileset, const std::string &filename)
 		}
 }
 
-void TileMap::CheckCollision(GameObject *object)
+void Level::CheckCollision(GameObject *object)
 {
 	sf::Vector2f pos = sf::Vector2f((int)object->GetPosition().x / m_tilesize.x, (int)object->GetPosition().y / m_tilesize.y);
 	sf::FloatRect current_rect = object->GetBounds();
@@ -89,9 +113,21 @@ void TileMap::CheckCollision(GameObject *object)
 	object->Move();
 }
 
-void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Level::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform *= getTransform();
 	states.texture = &m_tileset;
 	target.draw(m_vertices, states);
+}
+
+void Level::UpdateObjects(float dt)
+{
+	for (auto enemy : m_enemies)
+		enemy->Update(dt);
+}
+
+void Level::DrawObjects(sf::RenderWindow &window, float dt)
+{
+	for (auto enemy : m_enemies)
+		enemy->Draw(window, dt);
 }

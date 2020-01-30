@@ -5,6 +5,7 @@
 GameStatePlaying::GameStatePlaying(Game *game)
 {
 	this->game = game;
+	level1 = Level(game);
 	level1.Load(game->texmgr.GetRef("Level1"), "res/maps/Level1.txt");
 
 	object_manager.Add("player", new Player(game->texmgr.GetRef("Player"), sf::Vector2f(400, 500)));
@@ -26,8 +27,8 @@ void GameStatePlaying::HandleInput()
 				switch (ev.key.code)
 				{
 					case sf::Keyboard::Escape:
-						game->window.close();
-						break;
+						game->PopState();
+						return;
 				}
 				break;
 		}
@@ -37,11 +38,12 @@ void GameStatePlaying::HandleInput()
 void GameStatePlaying::Update(float dt)
 {
 	object_manager.Update(level1, dt);
+	level1.UpdateObjects(dt);
 }
 
 void GameStatePlaying::Draw(float dt)
 {
-	game->window.draw(game->background);
 	game->window.draw(level1);
 	object_manager.Draw(game->window, dt);
+	level1.DrawObjects(game->window, dt);
 }

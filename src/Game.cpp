@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "GameStatePlaying.h"
+#include "GameStateMainMenu.h"
 
 
 Game::Game()
@@ -10,7 +11,7 @@ Game::Game()
 	LoadTextures();
 	background.setTexture(texmgr.GetRef("Background"));
 
-	PushState(new GameStatePlaying(this));
+	PushState(new GameStateMainMenu(this));
 }
 
 Game::~Game()
@@ -40,6 +41,7 @@ void Game::LoadTextures()
 {
 	texmgr.LoadTexture("Background", "res/images/Background.png");
 	texmgr.LoadTexture("Player", "res/images/Player.png");
+	texmgr.LoadTexture("Enemy", "res/images/Enemy.png");
 	texmgr.LoadTexture("Level1", "res/images/Level1.png");
 }
 

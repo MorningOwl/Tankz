@@ -33,7 +33,7 @@ GameObject* GameObjectManager::Get(const std::string &name)
 	return object->second;
 }
 
-void GameObjectManager::Update(TileMap &map, float dt)
+void GameObjectManager::Update(Level &map, float dt)
 {
 	for (auto object = m_objects.begin(); object != m_objects.end(); object++)
 	{
