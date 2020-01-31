@@ -15,8 +15,9 @@ class GameObject
 		sf::FloatRect GetBounds();
 		sf::Vector2f GetPosition();
 		sf::Vector2f GetVelocity();
+		float GetDistanceFrom(sf::Vector2f objectPos);
 
-		sf::Vector2f m_vel;
+		sf::Vector2f vel;
 
 	protected:
 		float m_speed;

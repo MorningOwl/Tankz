@@ -9,12 +9,6 @@ Level::Level(Game *game)
 
 }
 
-Level::~Level()
-{
-	for (auto enemy : m_enemies)
-		delete enemy;
-}
-
 void Level::Load(sf::Texture &tileset, const std::string &filename)
 {
 	m_tileset = tileset;
@@ -46,7 +40,7 @@ void Level::Load(sf::Texture &tileset, const std::string &filename)
 		int tile;
 		load >> tile;
 		if (tile == 1)
-			m_enemies.push_back(new Enemy(game->texmgr.GetRef("Enemy"),
+			m_enemy_manager.Add(new Enemy(game->texmgr.GetRef("Enemy"),
 				sf::Vector2f((i % m_width) * m_tilesize.x + m_tilesize.x / 2, (i / m_width) * m_tilesize.y + m_tilesize.y / 2)));
 	}
 
@@ -94,19 +88,19 @@ void Level::CheckCollision(GameObject *object)
 			if (tile.intersects(collision_rect_X))
 			{
 				if (collision_rect_X.left < tile.left && collision_rect_X.left + collision_rect_X.width > tile.left)
-					object->m_vel.x = tile.left - (current_rect.left + current_rect.width);
+					object->vel.x = tile.left - (current_rect.left + current_rect.width);
 
 				else if (collision_rect_X.left < tile.left + tile.width && collision_rect_X.left + collision_rect_X.width > tile.left + tile.width)
-					object->m_vel.x = tile.left + tile.width - current_rect.left;
+					object->vel.x = tile.left + tile.width - current_rect.left;
 			}
 
 			if (tile.intersects(collision_rect_Y))
 			{
 				if (collision_rect_Y.top < tile.top && collision_rect_Y.top + collision_rect_Y.height > tile.top)
-					object->m_vel.y = tile.top - (current_rect.top + current_rect.height);
+					object->vel.y = tile.top - (current_rect.top + current_rect.height);
 
 				else if (collision_rect_Y.top < tile.top + tile.height && collision_rect_Y.top + collision_rect_Y.height > tile.top + tile.height)
-					object->m_vel.y = tile.top + tile.height - current_rect.top;
+					object->vel.y = tile.top + tile.height - current_rect.top;
 			}
 		}
 
@@ -120,14 +114,13 @@ void Level::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(m_vertices, states);
 }
 
-void Level::UpdateObjects(float dt)
+void Level::Update(GameObject *player, float dt)
 {
-	for (auto enemy : m_enemies)
-		enemy->Update(dt);
+	m_enemy_manager.Update(this, player, dt);
+	
 }
 
-void Level::DrawObjects(sf::RenderWindow &window, float dt)
+void Level::Draw(sf::RenderWindow &window, float dt)
 {
-	for (auto enemy : m_enemies)
-		enemy->Draw(window, dt);
+	m_enemy_manager.Draw(window, dt);
 }

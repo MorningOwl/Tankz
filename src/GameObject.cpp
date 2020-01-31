@@ -21,12 +21,19 @@ sf::Vector2f GameObject::GetPosition()
 
 sf::Vector2f GameObject::GetVelocity()
 {
-	return m_vel;
+	return vel;
+}
+
+float GameObject::GetDistanceFrom(sf::Vector2f objectPos)
+{
+	sf::Vector2f pos1 = GetPosition();
+	sf::Vector2f pos2 = objectPos;
+	return sqrt((pos2.x - pos1.x) * (pos2.x - pos1.x) + (pos2.y - pos1.y) * (pos2.y - pos1.y));
 }
 
 void GameObject::Move()
 {
-	m_sprite.move(m_vel);
+	m_sprite.move(vel);
 }
 
 void GameObject::Draw(sf::RenderWindow &window, float dt)

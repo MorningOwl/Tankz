@@ -12,6 +12,7 @@ Game::Game()
 	background.setTexture(texmgr.GetRef("Background"));
 
 	PushState(new GameStateMainMenu(this));
+	PushState(new GameStatePlaying(this));
 }
 
 Game::~Game()
