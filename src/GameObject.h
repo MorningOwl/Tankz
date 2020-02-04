@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "HealthBar.h"
 
 
 class GameObject
@@ -10,16 +11,20 @@ class GameObject
 
 		virtual void Update(float dt) {}
 		virtual void Draw(sf::RenderWindow &window, float dt);
+
 		void Move();
 
 		sf::FloatRect GetBounds();
 		sf::Vector2f GetPosition();
 		sf::Vector2f GetVelocity();
 		float GetDistanceFrom(sf::Vector2f objectPos);
+		float GetHealthRatio();
 
 		sf::Vector2f vel;
 
 	protected:
 		float m_speed;
 		sf::Sprite m_sprite;
+		HealthBar m_healthbar;
+		int m_health, m_max_health, m_attack, m_defense;
 };

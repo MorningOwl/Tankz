@@ -164,6 +164,7 @@
     <ClInclude Include="src\GameState.h" />
     <ClInclude Include="src\GameStateMainMenu.h" />
     <ClInclude Include="src\GameStatePlaying.h" />
+    <ClInclude Include="src\HealthBar.h" />
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\TextureManager.h" />
     <ClInclude Include="src\Level.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="src\GameObjectManager.cpp" />
     <ClCompile Include="src\GameStateMainMenu.cpp" />
     <ClCompile Include="src\GameStatePlaying.cpp" />
+    <ClCompile Include="src\HealthBar.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\TextureManager.cpp" />

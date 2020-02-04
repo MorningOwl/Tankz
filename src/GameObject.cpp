@@ -7,6 +7,9 @@ GameObject::GameObject(sf::Texture &texture, sf::Vector2f pos)
 	m_sprite.setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
 	m_speed = 5;
 	m_sprite.setPosition(pos);
+	m_health = 20, m_max_health = 20;
+	m_attack = 4, m_defense = 2;
+	m_healthbar = HealthBar(this);
 }
 
 sf::FloatRect GameObject::GetBounds()
@@ -31,12 +34,19 @@ float GameObject::GetDistanceFrom(sf::Vector2f objectPos)
 	return sqrt((pos2.x - pos1.x) * (pos2.x - pos1.x) + (pos2.y - pos1.y) * (pos2.y - pos1.y));
 }
 
+float GameObject::GetHealthRatio()
+{
+	return m_health * 1.0 / m_max_health;
+}
+
 void GameObject::Move()
 {
 	m_sprite.move(vel);
+	m_healthbar.Update();
 }
 
 void GameObject::Draw(sf::RenderWindow &window, float dt)
 {
 	window.draw(m_sprite);
+	m_healthbar.Draw(window);
 }

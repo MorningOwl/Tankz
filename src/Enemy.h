@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 
-enum class EnemyState { IDLE, FOLLOWING, GOINGHOME };
+enum class EnemyState { IDLE, FOLLOWING, ATTACKING, GOINGHOME };
 
 class Enemy : public GameObject
 {
@@ -17,10 +17,15 @@ class Enemy : public GameObject
 	private:
 		void CheckForTarget(GameObject *object);
 		void GoTo(sf::Vector2f pos);
+		void GoTo(GameObject *object);
+
+		bool isAt(sf::Vector2f pos);
+		bool isAt(GameObject *object);
 
 		sf::Vector2f m_spawn_point;
 		sf::CircleShape m_sight;
 		float m_sight_range;
 		GameObject *m_target;
 		EnemyState m_state;
+		bool m_attack_timer;
 };
