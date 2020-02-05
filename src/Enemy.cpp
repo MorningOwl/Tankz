@@ -9,7 +9,8 @@ Enemy::Enemy(sf::Texture &texture, sf::Vector2f pos)
 	m_sight_range = 100;
 	m_sight.setRadius(m_sight_range);
 	m_sight.setPosition(pos);
-	m_attack_timer = 2;
+	m_attack_interval = 1;
+	m_time_since_last_attack = 0;
 }
 
 Enemy::~Enemy()
@@ -22,28 +23,34 @@ void Enemy::Update(float dt)
 
 }
 
-void Enemy::Update(GameObject *object, float dt)
+void Enemy::Update(std::vector<GameObject*> objects, float dt)
 {
 	vel = sf::Vector2f(0, 0);
 
 	switch (m_state)
 	{
 		case EnemyState::IDLE:
-			CheckForTarget(object);
+			CheckForTarget(objects);
 			break;
 
 		case EnemyState::FOLLOWING:
 			if (GetDistanceFrom(m_target->GetPosition()) <= m_sight_range)
 				GoTo(m_target);
 			else
+			{
 				m_target = nullptr, m_state = EnemyState::GOINGHOME;
+				break;
+			}
+
+			if (isAt(m_target))
+				Attack(m_target, dt);
 			break;
 
 		case EnemyState::GOINGHOME:
 			GoTo(m_spawn_point);
 			if (isAt(m_spawn_point))
 				m_state = EnemyState::IDLE;
-			CheckForTarget(object);
+			CheckForTarget(objects);
 			break;
 	}
 }
@@ -53,11 +60,11 @@ bool Enemy::isAt(GameObject *object)
 	sf::FloatRect rect1 = GetBounds();
 	sf::FloatRect rect2 = object->GetBounds();
 
-	if (rect1.top - 2 < rect2.top + rect2.height + 2 && rect1.top + rect1.height + 2 > rect2.top - 2)
-		return rect1.left - 2 < rect2.left + rect2.width + 2 || rect1.left + rect1.width + 2 > rect2.left - 2;
+	if (rect1.top - 3 < rect2.top + rect2.height + 3 && rect1.top + rect1.height + 3 > rect2.top - 3)
+		return (rect1.left - 3 < rect2.left + rect2.width + 3 && rect1.left > rect2.left) || (rect1.left + rect1.width + 3 > rect2.left - 3 && rect1.left < rect2.left);
 
-	if (rect1.left - 2 < rect2.left + rect2.width + 2 && rect1.left + rect1.width + 2 > rect2.left - 2)
-		return rect1.top - 2 < rect2.top + rect2.height + 2 || rect1.top + rect1.height + 2 > rect2.top - 2;
+	if (rect1.left - 3 < rect2.left + rect2.width + 3 && rect1.left + rect1.width + 3 > rect2.left - 3)
+		return (rect1.top - 3 < rect2.top + rect2.height + 3 && rect1.top > rect2.top) || (rect1.top + rect1.height + 3 > rect2.top - 3 && rect1.top < rect2.top);
 
 	return false;
 }
@@ -129,8 +136,27 @@ void Enemy::GoTo(GameObject *object)
 	}
 }
 
-void Enemy::CheckForTarget(GameObject *object)
+void Enemy::CheckForTarget(std::vector<GameObject*> objects)
 {
-	if (GetDistanceFrom(object->GetPosition()) < m_sight_range)
-		m_target = object, m_state = EnemyState::FOLLOWING;
+	for (auto object : objects)
+		if (GetDistanceFrom(object->GetPosition()) < m_sight_range)
+			m_target = object, m_state = EnemyState::FOLLOWING;
+}
+
+void Enemy::Attack(GameObject *object, float dt)
+{
+	m_time_since_last_attack += dt;
+
+	if (m_time_since_last_attack >= m_attack_interval)
+	{
+		object->ReduceHealth(m_attack_power);
+		if (object->GetHealthRatio() <= 0)
+		{
+			object->isDead = true;
+			m_target = nullptr;
+			m_state = EnemyState::GOINGHOME;
+		}
+
+		m_time_since_last_attack = 0;
+	}
 }

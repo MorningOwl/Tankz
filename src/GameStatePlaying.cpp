@@ -43,7 +43,7 @@ void GameStatePlaying::HandleInput()
 void GameStatePlaying::Update(float dt)
 {
 	object_manager.Update(level1, dt);
-	level1.Update(object_manager.Get("Player"), dt);
+	level1.Update(object_manager.GetObjects(), dt);
 }
 
 void GameStatePlaying::Draw(float dt)

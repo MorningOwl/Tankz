@@ -15,7 +15,7 @@ class EnemyManager
 		void Add(Enemy *enemy);
 		void Remove(Enemy *enemy);
 
-		void Update(Level *map, GameObject *player, float dt) const;
+		void Update(Level *map, std::vector<GameObject*> objects, float dt) const;
 		void Draw(sf::RenderWindow &window, float dt);
 
 	private:

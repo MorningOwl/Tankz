@@ -39,6 +39,11 @@ void GameObjectManager::Update(Level &map, float dt)
 	{
 		object->second->Update(dt);
 		map.CheckCollision(object->second);
+		if (object->second->isDead)
+		{
+			Remove(object->first);
+			return;
+		}
 	}
 }
 
@@ -48,4 +53,12 @@ void GameObjectManager::Draw(sf::RenderWindow &window, float dt)
 	{
 		object->second->Draw(window, dt);
 	}
+}
+
+std::vector<GameObject*> GameObjectManager::GetObjects()
+{
+	std::vector<GameObject*> objects;
+	for (auto object = m_objects.begin(); object != m_objects.end(); object++)
+		objects.push_back(object->second);
+	return objects;
 }

@@ -15,7 +15,7 @@ class Level : public sf::Drawable, public sf::Transformable
 		void Load(sf::Texture &tileset, const std::string &filename);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-		void Update(GameObject *player, float dt);
+		void Update(std::vector<GameObject*> objects, float dt);
 		void Draw(sf::RenderWindow &window, float dt);
 
 		void CheckCollision(GameObject *object);

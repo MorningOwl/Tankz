@@ -114,9 +114,9 @@ void Level::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(m_vertices, states);
 }
 
-void Level::Update(GameObject *player, float dt)
+void Level::Update(std::vector<GameObject*> objects, float dt)
 {
-	m_enemy_manager.Update(this, player, dt);
+	m_enemy_manager.Update(this, objects, dt);
 	
 }
 

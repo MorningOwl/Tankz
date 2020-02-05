@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Level.h"
 #include <map>
+#include <vector>
 
 
 class GameObjectManager
@@ -15,6 +16,8 @@ class GameObjectManager
 
 		void Update(Level &map, float dt);
 		void Draw(sf::RenderWindow &window, float dt);
+
+		std::vector<GameObject*> GetObjects();
 
 	private:
 		std::map<std::string, GameObject*> m_objects;

@@ -18,11 +18,11 @@ void EnemyManager::Remove(Enemy *enemy)
 	delete enemy;
 }
 
-void EnemyManager::Update(Level *map, GameObject *player, float dt) const
+void EnemyManager::Update(Level *map, std::vector<GameObject*> objects, float dt) const
 {
 	for (auto enemy : m_enemies)
 	{
-		enemy->Update(player, dt);
+		enemy->Update(objects, dt);
 		map->CheckCollision(enemy);
 	}
 }
