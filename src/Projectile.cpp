@@ -7,7 +7,7 @@ Projectile::Projectile(sf::Texture &texture, sf::Vector2f pos, Direction dir)
 	m_speed = 7;
 	m_lifetime = 0.5;
 	m_duration = 0;
-	m_attack_power = 10;
+	attack_power = 10;
 
 	switch (dir)
 	{
@@ -22,6 +22,6 @@ void Projectile::Update(float dt)
 {
 	m_duration += dt;
 	if (m_duration >= m_lifetime)
-		isDead = true;
+		m_health = 0;
 	Move();
 }

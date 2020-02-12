@@ -6,10 +6,9 @@ GameObject::GameObject(sf::Texture &texture, sf::Vector2f pos)
 	m_sprite.setTexture(texture);
 	m_sprite.setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
 	m_speed = 5;
-	isDead = false;
 	m_sprite.setPosition(pos);
 	m_health = 20, m_max_health = 20;
-	m_attack_power = 4, m_defense = 2;
+	attack_power = 4, m_defense = 2;
 	m_healthbar = HealthBar(this);
 }
 
@@ -40,9 +39,25 @@ float GameObject::GetHealthRatio()
 	return m_health * 1.0 / m_max_health;
 }
 
+bool GameObject::isDead()
+{
+	return m_health <= 0;
+}
+
+void GameObject::Kill()
+{
+	m_health = 0;
+}
+
 void GameObject::ReduceHealth(int amount)
 {
 	m_health -= amount;
+}
+
+void GameObject::AdjustVelocity()
+{
+	if (vel.x != 0 && vel.y != 0)
+		vel.x *= 0.75, vel.y *= 0.75;
 }
 
 void GameObject::Move()

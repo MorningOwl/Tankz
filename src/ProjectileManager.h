@@ -15,6 +15,8 @@ class ProjectileManager
 			void Update(float dt);
 			void Draw(sf::RenderWindow &window, float dt);
 
+			std::vector<Projectile*> GetProjectiles();
+
 	private:
 		std::vector<Projectile*> m_projectiles;
 };

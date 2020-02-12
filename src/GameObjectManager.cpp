@@ -39,7 +39,7 @@ void GameObjectManager::Update(Level &map, float dt)
 	{
 		object->second->Update(dt);
 		map.CheckCollision(object->second);
-		if (object->second->isDead)
+		if (object->second->isDead())
 		{
 			Remove(object->first);
 			return;

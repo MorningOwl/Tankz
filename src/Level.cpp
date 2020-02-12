@@ -3,10 +3,15 @@
 #include <cassert>
 
 
-Level::Level(Game *game)
-	:game(game)
+void Level::Init(Game *game)
 {
+	this->game = game;
+	player = new Player(game->texmgr.GetRef("Player"), game->texmgr.GetRef("Projectile"), sf::Vector2f(400, 500));
+}
 
+Level::~Level()
+{
+	delete player;
 }
 
 void Level::Load(sf::Texture &tileset, const std::string &filename)
@@ -68,7 +73,7 @@ void Level::Load(sf::Texture &tileset, const std::string &filename)
 		}
 }
 
-void Level::CheckCollision(GameObject *object)
+void Level::CheckCollision(GameObject *object, bool projectile)
 {
 	sf::Vector2f pos = sf::Vector2f((int)object->GetPosition().x / m_tilesize.x, (int)object->GetPosition().y / m_tilesize.y);
 	sf::FloatRect current_rect = object->GetBounds();
@@ -81,6 +86,12 @@ void Level::CheckCollision(GameObject *object)
 			if (y * m_width + x > m_collisions.size()) continue;
 			if (!m_collisions[y * m_width + x]) continue;
 			sf::FloatRect tile(x * m_tilesize.x, y * m_tilesize.y, m_tilesize.x, m_tilesize.y);
+
+			if (projectile && current_rect.intersects(tile))
+			{
+				object->Kill();
+				return;
+			}
 
 			if (tile.intersects(collision_rect_X))
 			{
@@ -104,6 +115,11 @@ void Level::CheckCollision(GameObject *object)
 	object->Move();
 }
 
+std::vector<Projectile*> Level::GetProjectiles()
+{
+	return player->GetProjectiles();
+}
+
 void Level::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform *= getTransform();
@@ -111,13 +127,18 @@ void Level::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(m_vertices, states);
 }
 
-void Level::Update(std::vector<GameObject*> objects, float dt)
+void Level::Update(float dt)
 {
-	m_enemy_manager.Update(this, objects, dt);
-	
+	m_enemy_manager.Update(this, player, dt);
+	player->Update(dt);
+	CheckCollision(player);
+
+	for (auto proj : GetProjectiles())
+		CheckCollision(proj, true);
 }
 
 void Level::Draw(sf::RenderWindow &window, float dt)
 {
 	m_enemy_manager.Draw(window, dt);
+	player->Draw(window, dt);
 }

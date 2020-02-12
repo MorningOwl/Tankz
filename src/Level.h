@@ -8,17 +8,21 @@ class Level : public sf::Drawable, public sf::Transformable
 {
 	public:
 		Level() {}
-		Level(Game *game);
+		~Level();
+
+		void Init(Game *game);
 
 		Game *game;
+		Player *player;
 
 		void Load(sf::Texture &tileset, const std::string &filename);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-		void Update(std::vector<GameObject*> objects, float dt);
+		void Update(float dt);
 		void Draw(sf::RenderWindow &window, float dt);
 
-		void CheckCollision(GameObject *object);
+		void CheckCollision(GameObject *object, bool projectile = false);
+		std::vector<Projectile*> GetProjectiles();
 
 	private:
 		int m_width, m_height;

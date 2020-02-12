@@ -19,16 +19,20 @@ class GameObject
 		sf::Vector2f GetVelocity();
 		float GetDistanceFrom(sf::Vector2f objectPos);
 		float GetHealthRatio();
+		bool isDead();
+		void Kill();
 
 		void ReduceHealth(int amount);
 
 		sf::Vector2f vel;
-		bool isDead;
+		int attack_power;
 
 	protected:
+		void AdjustVelocity();
+
 		float m_speed;
 		sf::Sprite m_sprite;
 		HealthBar m_healthbar;
-		int m_health, m_max_health, m_attack_power, m_defense;
+		int m_health, m_max_health, m_defense;
 		float m_attack_rate, m_time_since_last_attack;
 };

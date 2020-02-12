@@ -23,12 +23,22 @@ void EnemyManager::Remove(Enemy *enemy)
 		}
 }
 
-void EnemyManager::Update(Level *map, std::vector<GameObject*> objects, float dt) const
+void EnemyManager::Update(Level *map, Player *player, float dt)
 {
 	for (auto enemy : m_enemies)
 	{
-		enemy->Update(objects, dt);
+		enemy->Update(player, dt);
 		map->CheckCollision(enemy);
+
+		for (auto proj : map->GetProjectiles())
+			if (proj->GetBounds().intersects(enemy->GetBounds()))
+				enemy->ReduceHealth(proj->attack_power), proj->Kill();
+
+		if (enemy->isDead())
+		{
+			Remove(enemy);
+			return;
+		}
 	}
 }
 

@@ -23,14 +23,14 @@ void Enemy::Update(float dt)
 
 }
 
-void Enemy::Update(std::vector<GameObject*> objects, float dt)
+void Enemy::Update(Player *player, float dt)
 {
 	vel = sf::Vector2f(0, 0);
 
 	switch (m_state)
 	{
 		case EnemyState::IDLE:
-			CheckForTarget(objects);
+			CheckForTarget(player);
 			break;
 
 		case EnemyState::FOLLOWING:
@@ -50,7 +50,7 @@ void Enemy::Update(std::vector<GameObject*> objects, float dt)
 			GoTo(m_spawn_point);
 			if (isAt(m_spawn_point))
 				m_state = EnemyState::IDLE;
-			CheckForTarget(objects);
+			CheckForTarget(player);
 			break;
 	}
 }
@@ -103,6 +103,8 @@ void Enemy::GoTo(sf::Vector2f destination)
 		if (pos1.y - m_speed < pos2.y) vel.y = pos2.y - pos1.y;
 		else vel.y = -m_speed;
 	}
+
+	AdjustVelocity();
 }
 
 void Enemy::GoTo(GameObject *object)
@@ -134,13 +136,14 @@ void Enemy::GoTo(GameObject *object)
 		if (rect1.top - 2 - m_speed < rect2.top + rect2.height + 2) vel.y = (rect2.top + rect2.height + 2) - (rect1.top - 2);
 		else vel.y = -m_speed;
 	}
+
+	AdjustVelocity();
 }
 
-void Enemy::CheckForTarget(std::vector<GameObject*> objects)
+void Enemy::CheckForTarget(Player *player)
 {
-	for (auto object : objects)
-		if (GetDistanceFrom(object->GetPosition()) < m_sight_range)
-			m_target = object, m_state = EnemyState::FOLLOWING;
+	if (GetDistanceFrom(player->GetPosition()) < m_sight_range)
+		m_target = player, m_state = EnemyState::FOLLOWING;
 }
 
 void Enemy::Attack(GameObject *object, float dt)
@@ -149,10 +152,9 @@ void Enemy::Attack(GameObject *object, float dt)
 
 	if (m_time_since_last_attack >= m_attack_rate)
 	{
-		object->ReduceHealth(m_attack_power);
-		if (object->GetHealthRatio() <= 0)
+		object->ReduceHealth(attack_power);
+		if (object->isDead())
 		{
-			object->isDead = true;
 			m_target = nullptr;
 			m_state = EnemyState::GOINGHOME;
 		}

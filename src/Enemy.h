@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "Player.h"
 
 
 enum class EnemyState { IDLE, FOLLOWING, ATTACKING, GOINGHOME };
@@ -12,10 +12,10 @@ class Enemy : public GameObject
 		Enemy(sf::Texture &texture, sf::Vector2f pos);
 
 		virtual void Update(float dt) override;
-		void Update(std::vector<GameObject*> objects, float dt);
+		void Update(Player *player, float dt);
 
 	private:
-		void CheckForTarget(std::vector<GameObject*> objects);
+		void CheckForTarget(Player *player);
 		void GoTo(sf::Vector2f pos);
 		void GoTo(GameObject *object);
 

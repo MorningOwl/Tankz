@@ -5,10 +5,8 @@
 GameStatePlaying::GameStatePlaying(Game *game)
 {
 	this->game = game;
-	level1 = Level(game);
-	level1.Load(game->texmgr.GetRef("Level1"), "res/maps/Level2.txt");
-
-	object_manager.Add("Player", new Player(game->texmgr.GetRef("Player"), game->texmgr.GetRef("Projectile"), sf::Vector2f(400, 500)));
+	level1.Init(game);
+	level1.Load(game->texmgr.GetRef("Level1"), "res/maps/Level1.txt");
 }
 
 void GameStatePlaying::HandleInput()
@@ -43,7 +41,7 @@ void GameStatePlaying::HandleInput()
 void GameStatePlaying::Update(float dt)
 {
 	object_manager.Update(level1, dt);
-	level1.Update(object_manager.GetObjects(), dt);
+	level1.Update(dt);
 }
 
 void GameStatePlaying::Draw(float dt)

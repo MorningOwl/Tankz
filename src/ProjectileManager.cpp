@@ -22,12 +22,18 @@ void ProjectileManager::Remove(Projectile *projectile)
 		}
 }
 
+
+std::vector<Projectile*> ProjectileManager::GetProjectiles()
+{
+	return m_projectiles;
+}
+
 void ProjectileManager::Update(float dt)
 {
 	for (auto projectile : m_projectiles)
 	{
 		projectile->Update(dt);
-		if (projectile->isDead)
+		if (projectile->isDead())
 		{
 			Remove(projectile);
 			break;
