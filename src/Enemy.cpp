@@ -9,7 +9,7 @@ Enemy::Enemy(sf::Texture &texture, sf::Vector2f pos)
 	m_sight_range = 100;
 	m_sight.setRadius(m_sight_range);
 	m_sight.setPosition(pos);
-	m_attack_interval = 1;
+	m_attack_rate = 1;
 	m_time_since_last_attack = 0;
 }
 
@@ -147,7 +147,7 @@ void Enemy::Attack(GameObject *object, float dt)
 {
 	m_time_since_last_attack += dt;
 
-	if (m_time_since_last_attack >= m_attack_interval)
+	if (m_time_since_last_attack >= m_attack_rate)
 	{
 		object->ReduceHealth(m_attack_power);
 		if (object->GetHealthRatio() <= 0)

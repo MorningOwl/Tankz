@@ -54,5 +54,6 @@ void GameObject::Move()
 void GameObject::Draw(sf::RenderWindow &window, float dt)
 {
 	window.draw(m_sprite);
-	m_healthbar.Draw(window);
+	if (m_healthbar.isVisible())
+		m_healthbar.Draw(window);
 }

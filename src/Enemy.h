@@ -29,5 +29,4 @@ class Enemy : public GameObject
 		float m_sight_range;
 		GameObject *m_target;
 		EnemyState m_state;
-		float m_attack_interval, m_time_since_last_attack;
 };

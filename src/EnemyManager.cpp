@@ -15,7 +15,12 @@ void EnemyManager::Add(Enemy *enemy)
 
 void EnemyManager::Remove(Enemy *enemy)
 {
-	delete enemy;
+	for (size_t i = 0; i < m_enemies.size(); i++)
+		if (m_enemies[i] == enemy)
+		{
+			delete m_enemies[i];
+			m_enemies.erase(m_enemies.begin() + i);
+		}
 }
 
 void EnemyManager::Update(Level *map, std::vector<GameObject*> objects, float dt) const

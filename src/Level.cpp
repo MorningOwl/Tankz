@@ -32,9 +32,6 @@ void Level::Load(sf::Texture &tileset, const std::string &filename)
 		m_collisions.push_back(tile);
 	}
 
-	sf::Texture e;
-	e.loadFromFile("res/images/Enemy.png");
-
 	for (int i = 0; i < m_width * m_height; i++)
 	{
 		int tile;

@@ -5,7 +5,7 @@
 
 Game::Game()
 {
-	window.create(sf::VideoMode(800, 600), "Rogue Like");
+	window.create(sf::VideoMode(800, 600), "Tankz");
 	window.setFramerateLimit(60);
 
 	LoadTextures();
@@ -42,6 +42,7 @@ void Game::LoadTextures()
 {
 	texmgr.LoadTexture("Background", "res/images/Background.png");
 	texmgr.LoadTexture("Player", "res/images/Player.png");
+	texmgr.LoadTexture("Projectile", "res/images/Projectile.png");
 	texmgr.LoadTexture("Enemy", "res/images/Enemy.png");
 	texmgr.LoadTexture("Level1", "res/images/Level1.png");
 }

@@ -2,8 +2,8 @@
 #include "GameObject.h"
 
 
-HealthBar::HealthBar(GameObject *object)
-	:m_object(object)
+HealthBar::HealthBar(GameObject *object, bool isVisible)
+	:m_object(object), m_isVisible(isVisible)
 {
 	m_size = sf::Vector2f(20, 3);
 	m_green = sf::RectangleShape(m_size);
@@ -29,10 +29,25 @@ void HealthBar::Update()
 	m_red.setPosition(m_pos);
 
 	m_green.setSize(sf::Vector2f(m_object->GetHealthRatio() * 20, m_size.y));
+
+	if (m_object->GetHealthRatio() != 1)
+		SetVisible(true);
+	else
+		SetVisible(false);
 }
 
 void HealthBar::Draw(sf::RenderWindow &window)
 {
 	window.draw(m_red);
 	window.draw(m_green);
+}
+
+void HealthBar::SetVisible(bool flag)
+{
+	m_isVisible = flag;
+}
+
+bool HealthBar::isVisible()
+{
+	return m_isVisible;
 }

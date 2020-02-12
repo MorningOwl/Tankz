@@ -23,7 +23,7 @@
     <ProjectGuid>{28E587CB-9CB7-4D72-A4D4-B95AC989C23A}</ProjectGuid>
     <RootNamespace>RougeLike</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
-    <ProjectName>Rogue Like</ProjectName>
+    <ProjectName>Tankz</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -166,6 +166,8 @@
     <ClInclude Include="src\GameStatePlaying.h" />
     <ClInclude Include="src\HealthBar.h" />
     <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\Projectile.h" />
+    <ClInclude Include="src\ProjectileManager.h" />
     <ClInclude Include="src\TextureManager.h" />
     <ClInclude Include="src\Level.h" />
   </ItemGroup>
@@ -181,11 +183,14 @@
     <ClCompile Include="src\HealthBar.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\Projectile.cpp" />
+    <ClCompile Include="src\ProjectileManager.cpp" />
     <ClCompile Include="src\TextureManager.cpp" />
     <ClCompile Include="src\Level.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="res\maps\Level1.txt" />
+    <Text Include="res\maps\Level2.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\images\Background.png" />

@@ -30,4 +30,5 @@ class GameObject
 		sf::Sprite m_sprite;
 		HealthBar m_healthbar;
 		int m_health, m_max_health, m_attack_power, m_defense;
+		float m_attack_rate, m_time_since_last_attack;
 };
